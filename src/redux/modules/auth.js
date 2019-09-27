@@ -82,19 +82,18 @@ export default function reducer(state = initialState, action) {
 export const logIn = values => async dispatch => {
   dispatch(logInStart());
   try {
-    debugger;
     let response = await login(values);
-
     localStorage.setItem("user", JSON.stringify({ isAuthenticated: true }));
     dispatch(logInSucceeded(response));
   } catch (error) {
-    dispatch(logInFailed(error));
+    if (error.response.data.error) {
+      dispatch(logInFailed(error.response.data.error));
+    }
   }
 };
 
 export const logOut = () => dispatch => {
   dispatch(logOutStart);
-  debugger;
   try {
     if (localStorage.getItem("user") !== null) {
       localStorage.removeItem("user");

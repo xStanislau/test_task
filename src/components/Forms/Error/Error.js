@@ -1,16 +1,18 @@
 import React from "react";
 import { Field } from "react-final-form";
 
-const Error = ({ name }) => (
+const Error = ({ name, serverError }) => (
   <Field
-    name={name}
-    subscription={{ touched: true, error: true, submitError: true }}
-    render={({ meta: { touched, error, submitError } }) => {
+    name={name || "server"}
+    subscription={{ touched: true, error: true, dirtySinceLastSubmit: true }}
+    render={({ meta, meta: { touched, error, dirtySinceLastSubmit } }) => {
       if (touched && error) {
         return <span className="text-danger error">{error}</span>;
-      } else if ((touched, submitError)) {
-        debugger;
-        return <span className="text-danger error">{submitError}</span>;
+      } else if (touched && serverError && !dirtySinceLastSubmit) {
+        if (dirtySinceLastSubmit) {
+          debugger;
+        }
+        return <span className="text-danger error">{serverError}</span>;
       } else {
         return null;
       }

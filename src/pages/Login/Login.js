@@ -2,7 +2,6 @@ import React from "react";
 import LoginForm from "../../components/Forms/LoginForm";
 
 const Login = () => {
-  debugger;
   return (
     <div className="login-page">
       <h3>Login Page</h3>

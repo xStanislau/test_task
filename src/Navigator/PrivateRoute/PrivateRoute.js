@@ -25,7 +25,9 @@ PrivateRoute.propTypes = {
   isAuthenticated: bool.isRequired,
   component: oneOfType([func, node, object])
 };
+
 PrivateRoute.defaultProps = {
   isAuthenticated: false
 };
+
 export default PrivateRoute;

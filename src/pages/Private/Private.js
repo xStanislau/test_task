@@ -5,7 +5,7 @@ const Private = ({ logOut }) => {
   const handleLogOut = () => {
     logOut();
   };
-  debugger;
+
   return (
     <div className="login-page">
       <h3>Private Page</h3>

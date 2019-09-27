@@ -10,9 +10,11 @@ import "./LoginForm.scss";
 
 class LoginForm extends Component {
   onSubmit = async values => {
-    debugger;
-    const response = await this.props.logIn(values);
-    return response;
+    await this.props.logIn(values);
+    const { isAuthenticated } = this.props;
+    if (isAuthenticated) {
+      this.props.history.push("/private");
+    }
   };
 
   validate = values => {
@@ -24,16 +26,11 @@ class LoginForm extends Component {
     if (!checkEmail(values.email)) {
       errors.email = email;
     }
-
     return errors;
   };
 
   render() {
-    const { isAuthenticated, values } = this.props;
-
-    if (isAuthenticated) {
-      this.props.history.push("/private");
-    }
+    const { values, error } = this.props;
 
     return (
       <Form
@@ -51,20 +48,9 @@ class LoginForm extends Component {
         }) => {
           return (
             <form className="login-form" onSubmit={handleSubmit}>
-              {(isAuthenticated || submitting) && <Loader />}
+              {!error && submitting && <Loader />}
               <h2 className="text-left title mb-3">Login your account</h2>
               <div className="login-form__inner">
-                <label htmlFor="password">Password</label>
-                <Error name="password" />
-
-                <Field
-                  name="password"
-                  type="password"
-                  component="input"
-                  id="password"
-                  placeholder="password"
-                />
-
                 <label htmlFor="email">Email</label>
                 <Error name="email" />
                 <Field
@@ -74,13 +60,21 @@ class LoginForm extends Component {
                   id="email"
                   placeholder="example@mail.com"
                 />
-
+                <label htmlFor="password">Password</label>
+                <Error name="password" serverError={error} />
+                <Field
+                  name="password"
+                  type="password"
+                  component="input"
+                  id="password"
+                  placeholder="password"
+                />
                 <Button
                   className="btn"
                   type="submit"
                   disabled={
                     submitting ||
-                    (hasValidationErrors && dirty) ||
+                    hasValidationErrors ||
                     (hasSubmitErrors && !dirtySinceLastSubmit)
                   }
                 >
