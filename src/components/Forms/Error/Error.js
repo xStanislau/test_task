@@ -9,9 +9,6 @@ const Error = ({ name, serverError }) => (
       if (touched && error) {
         return <span className="text-danger error">{error}</span>;
       } else if (touched && serverError && !dirtySinceLastSubmit) {
-        if (dirtySinceLastSubmit) {
-          debugger;
-        }
         return <span className="text-danger error">{serverError}</span>;
       } else {
         return null;
